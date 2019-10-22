@@ -1,0 +1,42 @@
+service:
+  name: serverless-weather-calendar
+  awsService: lambda
+  awsName: serverless-weather-calendar-${opt:stage} 
+# app and org for use with dashboard.serverless.com
+#app: your-app-name
+#org: your-org-name
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  apiName: ${self:service.awsName}
+  tags:
+    product: ${self:service.awsName}
+  deploymentBucket:
+    tags:
+      product: ${self:service.awsName}
+  stackName: ${self:service.awsName}-${self:service.awsService}
+  stackTags:
+    product: ${self:service.awsName}
+  environment:
+    NODE_ENV: ${env:NODE_ENV}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ssm:GetParameter
+      Resource:
+        - "arn:aws:ssm:${opt:region}:*:parameter/OPEN_WEATHER_API_KEY"
+
+functions:
+  openweather2ical:
+    handler: handler.openweather2ical
+    events:
+      - http:
+          method: get
+          path: /
