@@ -1,5 +1,7 @@
 # Goal
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/aizatto/serverless-weather-calendar.svg)](https://greenkeeper.io/)
+
 I wanted to display the weather in my calendar, and I thought I would prototype such a service using serverless.
 
 Feel free to deploy your own service, but you need to get an OpenWeather API key https://openweathermap.org/api
